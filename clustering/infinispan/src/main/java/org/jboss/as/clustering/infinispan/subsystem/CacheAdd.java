@@ -224,7 +224,7 @@ public abstract class CacheAdd extends AbstractAddStepHandler {
         if (config.clustering().cacheMode().isClustered()) {
             ServiceName transportServiceName = EmbeddedCacheManagerService.getTransportServiceName(containerName);
             cacheBuilder.addDependency(transportServiceName);
-            context.getServiceRegistry(true).getRequiredService(transportServiceName).setMode(ServiceController.Mode.ON_DEMAND);
+            //context.getServiceRegistry(true).getRequiredService(transportServiceName).setMode(ServiceController.Mode.ON_DEMAND);
         }
 
         if (config.transaction().recovery().enabled()) {

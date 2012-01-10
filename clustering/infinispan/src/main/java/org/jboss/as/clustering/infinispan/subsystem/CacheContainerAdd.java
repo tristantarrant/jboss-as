@@ -170,8 +170,8 @@ public class CacheContainerAdd extends AbstractAddStepHandler {
         }
 
         ServiceName channelServiceName = ChannelService.getServiceName(name);
-        // add an optional dependency on a ChannelService which has the cache-container name
-        containerBuilder.addDependency(DependencyType.OPTIONAL, channelServiceName, Channel.class, transportConfig.getChannelInjector());
+        // add a dependency on a ChannelService which has the cache-container name
+        containerBuilder.addDependency(DependencyType.REQUIRED, channelServiceName, Channel.class, transportConfig.getChannelInjector());
 
         addExecutorDependency(containerBuilder, model, ModelKeys.LISTENER_EXECUTOR, dependencies.getListenerExecutorInjector());
         addScheduledExecutorDependency(containerBuilder, model, ModelKeys.EVICTION_EXECUTOR, dependencies.getEvictionExecutorInjector());
@@ -184,7 +184,7 @@ public class CacheContainerAdd extends AbstractAddStepHandler {
         ServiceBuilder<Channel> channelBuilder = target.addService(channelServiceName, new ChannelService(name, channelFactory))
                 .addAliases(EmbeddedCacheManagerService.getTransportServiceName(name))
                 .addDependency(ChannelFactoryService.getServiceName(stack), ChannelFactory.class, channelFactory)
-                .setInitialMode(ServiceController.Mode.NEVER)
+                .setInitialMode(ServiceController.Mode.ON_DEMAND)
         ;
         newControllers.add(channelBuilder.install());
 
